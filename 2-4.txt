@@ -1,0 +1,32 @@
+
+a.
+
+SELECT fio FROM users
+	 WHERE salary = (SELECT MAX(salary) FROM users)
+
+b.
+
+SELECT fio FROM users 
+	ORDER BY fio
+
+c.
+
+SELECT skilllevel, 
+	ROUND(AVG (CURRENT_DATE-workstartday)/365, 2) as "Средний стаж"
+		FROM users  GROUP BY skilllevel
+
+
+d.
+
+SELECT fio, departmentname FROM users 
+	LEFT JOIN deps ON users.departmentid = deps.departmentid;
+
+e.
+
+SELECT departmentname, fio, salary FROM
+
+(SELECT fio, salary,departmentid FROM users
+	WHERE salary IN (SELECT  MAX(salary) FROM users 
+		GROUP BY departmentid)) as top_salary
+		
+LEFT JOIN deps ON top_salary.departmentid = deps.departmentid;
